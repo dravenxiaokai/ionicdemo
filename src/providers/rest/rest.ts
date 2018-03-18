@@ -16,16 +16,45 @@ export class RestProvider {
   constructor(public http: Http) {
     console.log('Hello RestProvider Provider');
   }
+  //feed
+  // private apiUrlFeeds = 'https://imoocqa.gugujiankong.com/api/feeds/get';
 
-/**
- * 全局获取 HTTP 请求的方法
- * @dravenxiaokai
- * @private
- * @param {string} url 
- * @returns {Observable<string[]>} 
- * @memberof RestProvider
- */
-private getUrlReturn(url: string): Observable<string[]> {
+  //account
+  // private apiUrlRegister = 'https://imoocqa.gugujiankong.com/api/account/register';
+  // private apiUrlLogin = 'https://imoocqa.gugujiankong.com/api/account/login';
+  private apiUrlLogin = 'http://localhost:3000/users';
+  // private apiUrlUserInfo = 'https://imoocqa.gugujiankong.com/api/account/userinfo';
+  // private apiUrlUpdateNickName = 'https://imoocqa.gugujiankong.com/api/account/updatenickname';
+
+  // private apiGetUserQuestionList = "https://imoocqa.gugujiankong.com/api/account/getuserquestionlist";
+
+  //question
+  // private apiUrlQuestionSave = 'https://imoocqa.gugujiankong.com/api/question/save';
+  // private apiUrlQuestionList = 'https://imoocqa.gugujiankong.com/api/question/list?index=1&number=10';
+  // private apiUrlGetQuestion = "https://imoocqa.gugujiankong.com/api/question/get";
+  // private apiUrlGetQuestionWithUser = "https://imoocqa.gugujiankong.com/api/question/getwithuser";
+  // private apiUrlAnswer = "https://imoocqa.gugujiankong.com/api/question/answer";
+  // private apiUrlSaveFavourite = "https://imoocqa.gugujiankong.com/api/question/savefavourite";
+
+  //notification
+  // private apiUrlUserNotifications = "https://imoocqa.gugujiankong.com/api/account/usernotifications";
+
+  //* 安全性方面需要自己去做详细的设计和处理
+  //* 密码的传递应该在传递参数之前进行加密，并且服务器端也应该进行相应的处理
+
+  login(mobile, password): Observable<string[]> {
+    return this.getUrlReturn(this.apiUrlLogin + '?mobile=' + mobile + '&password=' + password);
+  }
+
+  /**
+   * 全局获取 HTTP 请求的方法
+   * @dravenxiaokai
+   * @private
+   * @param {string} url 
+   * @returns {Observable<string[]>} 
+   * @memberof RestProvider
+   */
+  private getUrlReturn(url: string): Observable<string[]> {
     return this.http.get(url)
       .map(this.extractData)
       .catch(this.handleError);
@@ -35,6 +64,7 @@ private getUrlReturn(url: string): Observable<string[]> {
     let body = res.json();
     return body || {};
   }
+  
   private handleError(error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {
